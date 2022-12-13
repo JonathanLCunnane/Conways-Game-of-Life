@@ -15,19 +15,20 @@ namespace Conway_s_Game_of_Life
     public partial class mainWindow : Form
     {
         
-        int width = 400;
-        int height = 225;
+        int width = 100;
+        int height = 100;
         Random rand = new Random();
         bool[,] board;
         Stopwatch frameTimer = new Stopwatch();
         int frameNum = 0;
         int frameInterval = 34;
-        int nextGenerationBenchmark = 1;
-        int generationNumber = 0;
+        string gameState = "Paused";
+        int timeInterval = 1000;
 
         public mainWindow()
         {
             InitializeComponent();
+            // Setup board
             board = new bool[height, width];
 
             for (int y = 0; y < height; y++)
@@ -38,6 +39,12 @@ namespace Conway_s_Game_of_Life
                 }
             }
             boardPictureBox.Image = getBoardBitmap(board);
+
+            // Set window title
+            Text = $"Conway's Game of Life; {gameState}; {timeInterval}ms Interval";
+
+            // Set timer interval
+            generationIntervalTimer.Interval = timeInterval;
         }
 
         int getNeighbourCount(bool[,] board, int x, int y)
@@ -144,6 +151,9 @@ namespace Conway_s_Game_of_Life
         {
             startButton.Enabled = false;
             stopButton.Enabled = true;
+            setIntervalButton.Enabled = false;
+            gameState = "Playing";
+            updateWindow();
             Console.Write("Starting timers ... ");
             generationIntervalTimer.Start();
             frameTimer.Start();
@@ -155,6 +165,9 @@ namespace Conway_s_Game_of_Life
         {
             startButton.Enabled = true;
             stopButton.Enabled = false;
+            setIntervalButton.Enabled = true;
+            gameState = "Paused";
+            updateWindow();
             Console.Write("Stopping timers ... ");
             generationIntervalTimer.Stop();
             frameTimer.Stop();
@@ -168,13 +181,32 @@ namespace Conway_s_Game_of_Life
         private void generationIntervalTimer_Tick(object sender, EventArgs e)
         {
             ((IEnumerator<bool[,]>)(generationIntervalTimer.Tag)).MoveNext();
-            generationNumber += 1;
             if (frameTimer.ElapsedMilliseconds >= frameNum * frameInterval)
             {
                 frameNum += 1;
                 Bitmap nextImg = getBoardBitmap(((IEnumerator<bool[,]>)(generationIntervalTimer.Tag)).Current);
                 boardPictureBox.Image = nextImg;
             }
+        }
+
+        private void setIntervalButton_Click(object sender, EventArgs e)
+        {
+            SetIntervalWindow setIntervalWindow = new SetIntervalWindow(timeInterval);
+            DialogResult dialogueResult = setIntervalWindow.ShowDialog();
+            if (dialogueResult == DialogResult.OK)
+            {
+                timeInterval = setIntervalWindow.timeInterval;
+                updateWindow();
+            }
+        }
+
+        private void updateWindow()
+        {
+            // Set window title
+            Text = $"Conway's Game of Life; {gameState}; {timeInterval}ms Interval";
+
+            // Set timer interval
+            generationIntervalTimer.Interval = timeInterval;
         }
     }
 }
