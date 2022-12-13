@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,10 +14,17 @@ namespace Conway_s_Game_of_Life
 {
     public partial class mainWindow : Form
     {
+        
         int width = 400;
         int height = 225;
         Random rand = new Random();
         bool[,] board;
+        Stopwatch frameTimer = new Stopwatch();
+        int frameNum = 0;
+        int frameInterval = 34;
+        int nextGenerationBenchmark = 1;
+        int generationNumber = 0;
+
         public mainWindow()
         {
             InitializeComponent();
@@ -66,7 +74,7 @@ namespace Conway_s_Game_of_Life
                 );
             using (Graphics boardGraphics = Graphics.FromImage(boardBitmap))
             {
-
+                // Draw on black alive cells.
                 for (int y = 0; y < height; y++)
                 {
                     for (int x = 0; x < width; x++)
@@ -75,25 +83,21 @@ namespace Conway_s_Game_of_Life
                         if (board[y, x])
                         {
                             currBrush = Brushes.Black;
-                        }
-                        else
-                        {
-                            currBrush = Brushes.White;
-                        }
-                        boardGraphics.FillRectangle(
+                            boardGraphics.FillRectangle(
                             currBrush,
-                            cellWidth*x,
-                            cellHeight*y,
+                            cellWidth * x,
+                            cellHeight * y,
                             cellWidth,
                             cellHeight
                             );
+                        }
                     }
                 }
             }
             return boardBitmap;
         }
 
-        IEnumerator<Bitmap> boardGenerations(bool[,] startBoard)
+        IEnumerator<bool[,]> boardGenerations(bool[,] startBoard)
         {
             while (true)
             {
@@ -132,7 +136,7 @@ namespace Conway_s_Game_of_Life
                     }
                 }
                 startBoard = newBoard;
-                yield return getBoardBitmap(startBoard);
+                yield return startBoard;
             }
         }
 
@@ -140,7 +144,10 @@ namespace Conway_s_Game_of_Life
         {
             startButton.Enabled = false;
             stopButton.Enabled = true;
+            Console.Write("Starting timers ... ");
             generationIntervalTimer.Start();
+            frameTimer.Start();
+            Console.WriteLine("DONE");
             generationIntervalTimer.Tag = boardGenerations(board);
         }
 
@@ -148,16 +155,26 @@ namespace Conway_s_Game_of_Life
         {
             startButton.Enabled = true;
             stopButton.Enabled = false;
+            Console.Write("Stopping timers ... ");
             generationIntervalTimer.Stop();
-            ((IEnumerator<Bitmap>)(generationIntervalTimer.Tag)).Dispose();
+            frameTimer.Stop();
+            Console.WriteLine("DONE");
+            frameNum = 0;
+            ((IEnumerator<bool[,]>)(generationIntervalTimer.Tag)).Dispose();
 
             boardPictureBox.Image = getBoardBitmap(board);
         }
 
         private void generationIntervalTimer_Tick(object sender, EventArgs e)
         {
-            ((IEnumerator<Bitmap>)(generationIntervalTimer.Tag)).MoveNext();
-            boardPictureBox.Image = ((IEnumerator<Bitmap>)(generationIntervalTimer.Tag)).Current;
+            ((IEnumerator<bool[,]>)(generationIntervalTimer.Tag)).MoveNext();
+            generationNumber += 1;
+            if (frameTimer.ElapsedMilliseconds >= frameNum * frameInterval)
+            {
+                frameNum += 1;
+                Bitmap nextImg = getBoardBitmap(((IEnumerator<bool[,]>)(generationIntervalTimer.Tag)).Current);
+                boardPictureBox.Image = nextImg;
+            }
         }
     }
 }

@@ -33,8 +33,8 @@ namespace Conway_s_Game_of_Life
             this.boardPictureBox = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.startButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.generationIntervalTimer = new System.Windows.Forms.Timer(this.components);
             this.stopButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.generationIntervalTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.boardPictureBox)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -65,11 +65,6 @@ namespace Conway_s_Game_of_Life
             this.startButton.Text = "Start";
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
             // 
-            // generationIntervalTimer
-            // 
-            this.generationIntervalTimer.Interval = 10;
-            this.generationIntervalTimer.Tick += new System.EventHandler(this.generationIntervalTimer_Tick);
-            // 
             // stopButton
             // 
             this.stopButton.Enabled = false;
@@ -77,6 +72,11 @@ namespace Conway_s_Game_of_Life
             this.stopButton.Size = new System.Drawing.Size(43, 20);
             this.stopButton.Text = "Stop";
             this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
+            // 
+            // generationIntervalTimer
+            // 
+            this.generationIntervalTimer.Interval = 1;
+            this.generationIntervalTimer.Tick += new System.EventHandler(this.generationIntervalTimer_Tick);
             // 
             // mainWindow
             // 
