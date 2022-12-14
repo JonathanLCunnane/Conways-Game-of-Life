@@ -33,26 +33,20 @@ namespace Conway_s_Game_of_Life
             this.intervalInput = new System.Windows.Forms.NumericUpDown();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.noTimeIntervalCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.intervalInput)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(32, 9);
+            this.label1.Location = new System.Drawing.Point(35, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(186, 13);
+            this.label1.Size = new System.Drawing.Size(180, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Set Generation Interval (30 - 3000ms):";
+            this.label1.Text = "Set Generation Interval (1 - 3000ms):";
             // 
             // intervalInput
             // 
-            this.intervalInput.Increment = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
             this.intervalInput.Location = new System.Drawing.Point(65, 34);
             this.intervalInput.Maximum = new decimal(new int[] {
             3000,
@@ -85,23 +79,11 @@ namespace Conway_s_Game_of_Life
             this.button2.Text = "Cancel";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // noTimeIntervalCheckBox
-            // 
-            this.noTimeIntervalCheckBox.AutoSize = true;
-            this.noTimeIntervalCheckBox.Location = new System.Drawing.Point(241, 35);
-            this.noTimeIntervalCheckBox.Name = "noTimeIntervalCheckBox";
-            this.noTimeIntervalCheckBox.Size = new System.Drawing.Size(78, 17);
-            this.noTimeIntervalCheckBox.TabIndex = 4;
-            this.noTimeIntervalCheckBox.Text = "No Interval";
-            this.noTimeIntervalCheckBox.UseVisualStyleBackColor = true;
-            this.noTimeIntervalCheckBox.CheckedChanged += new System.EventHandler(this.noTimeIntervalCheckBox_CheckedChanged);
-            // 
             // SetIntervalWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(329, 111);
-            this.Controls.Add(this.noTimeIntervalCheckBox);
+            this.ClientSize = new System.Drawing.Size(234, 111);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.intervalInput);
@@ -120,6 +102,5 @@ namespace Conway_s_Game_of_Life
         private System.Windows.Forms.NumericUpDown intervalInput;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.CheckBox noTimeIntervalCheckBox;
     }
 }

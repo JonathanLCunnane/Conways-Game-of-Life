@@ -29,13 +29,11 @@ namespace Conway_s_Game_of_Life
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.boardPictureBox = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.startButton = new System.Windows.Forms.ToolStripMenuItem();
             this.stopButton = new System.Windows.Forms.ToolStripMenuItem();
             this.setIntervalButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.generationIntervalTimer = new System.Windows.Forms.Timer(this.components);
             this.bgWorkerForGeneration = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.boardPictureBox)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -83,11 +81,6 @@ namespace Conway_s_Game_of_Life
             this.setIntervalButton.Text = "Set Interval";
             this.setIntervalButton.Click += new System.EventHandler(this.setIntervalButton_Click);
             // 
-            // generationIntervalTimer
-            // 
-            this.generationIntervalTimer.Interval = 1000;
-            this.generationIntervalTimer.Tick += new System.EventHandler(this.generationIntervalTimer_Tick);
-            // 
             // bgWorkerForGeneration
             // 
             this.bgWorkerForGeneration.WorkerReportsProgress = true;
@@ -119,7 +112,6 @@ namespace Conway_s_Game_of_Life
         private System.Windows.Forms.PictureBox boardPictureBox;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem startButton;
-        private System.Windows.Forms.Timer generationIntervalTimer;
         private System.Windows.Forms.ToolStripMenuItem stopButton;
         private System.Windows.Forms.ToolStripMenuItem setIntervalButton;
         private System.ComponentModel.BackgroundWorker bgWorkerForGeneration;

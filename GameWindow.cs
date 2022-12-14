@@ -17,12 +17,10 @@ namespace Conway_s_Game_of_Life
         int width = 100;
         int height = 100;
         Board board;
-        Stopwatch frameTimer = new Stopwatch();
         int frameNum = 0;
         int frameInterval = 37;
         string gameState = "Paused";
         int timeInterval = 1000;
-        bool noInterval = false;
         int generationNumber = 0;
 
         public mainWindow()
@@ -36,23 +34,14 @@ namespace Conway_s_Game_of_Life
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            // Common window updates
-            startButton.Enabled = false;
-            stopButton.Enabled = true;
-            setIntervalButton.Enabled = false;
-            gameState = "Playing";
-            updateWindow();
-            // If interval is not zero
-            if (!noInterval)
+            if (!bgWorkerForGeneration.IsBusy)
             {
-                Console.Write("Starting timers ... ");
-                generationIntervalTimer.Start();
-                frameTimer.Start();
-                Console.WriteLine("DONE");
-            }
-            // Otherwise if interval is zero and the worker is not busy
-            else if (!bgWorkerForGeneration.IsBusy)
-            {
+                // Common window updates
+                startButton.Enabled = false;
+                stopButton.Enabled = true;
+                setIntervalButton.Enabled = false;
+                gameState = "Playing";
+                updateWindow();
                 bgWorkerForGeneration.RunWorkerAsync();
             }
         }
@@ -65,41 +54,18 @@ namespace Conway_s_Game_of_Life
             setIntervalButton.Enabled = true;
             gameState = "Paused";
             generationNumber = 0;
-            updateWindow();
-            // If interval is not zero
-            if (!noInterval)
-            {
-                Console.Write("Stopping timers ... ");
-                generationIntervalTimer.Stop();
-                frameTimer.Stop();
-                Console.WriteLine("DONE");
-                frameNum = 0;
-            }
-            // Otherwise if interval is zero cancel worker
-            else
-            {
-                bgWorkerForGeneration.CancelAsync();
-            }
-            boardPictureBox.Image = board.boardBmp;
-        }
+            frameNum = 0;
 
-        private void generationIntervalTimer_Tick(object sender, EventArgs e)
-        {
-            board.nextGeneration();
-            generationNumber += 1;
-            if (frameTimer.ElapsedMilliseconds >= frameNum * frameInterval)
-            {
-                frameNum += 1;
-                
-                boardPictureBox.Image = board.boardBmp;
-                updateWindow();
-            }
+            // Finish up and stop generation.
+            updateWindow();
+            bgWorkerForGeneration.CancelAsync();
+            boardPictureBox.Image = board.boardBmp;
         }
 
         private void bgWorkerForGeneration_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker bgWorker = sender as BackgroundWorker;
-            Stopwatch bgStopwatch = Stopwatch.StartNew();
+            Stopwatch frameTimer = Stopwatch.StartNew();
             while (true)
             {
                 if (bgWorker.CancellationPending)
@@ -109,11 +75,11 @@ namespace Conway_s_Game_of_Life
                 }
                 board.nextGeneration();
                 generationNumber += 1;
-                Console.Write(bgStopwatch.ElapsedMilliseconds);
-                if (bgStopwatch.ElapsedMilliseconds >= frameNum * frameInterval)
+                Console.Write(frameTimer.ElapsedMilliseconds);
+                if (frameTimer.ElapsedMilliseconds >= frameNum * frameInterval)
                 {
                     frameNum += 1;
-                    //Thread.Sleep(0);
+                    Thread.Sleep(timeInterval);
                     bgWorker.ReportProgress(0, board.boardBmp);
                 }
             }
@@ -128,12 +94,11 @@ namespace Conway_s_Game_of_Life
 
         private void setIntervalButton_Click(object sender, EventArgs e)
         {
-            SetIntervalWindow setIntervalWindow = new SetIntervalWindow(timeInterval, noInterval);
+            SetIntervalWindow setIntervalWindow = new SetIntervalWindow(timeInterval);
             DialogResult dialogueResult = setIntervalWindow.ShowDialog();
             if (dialogueResult == DialogResult.OK)
             {
                 timeInterval = setIntervalWindow.timeInterval;
-                noInterval = setIntervalWindow.noInterval;
                 updateWindow();
             }
         }
@@ -141,17 +106,7 @@ namespace Conway_s_Game_of_Life
         private void updateWindow()
         {
             // Set window title
-            if (!noInterval)
-            {
-                Text = $"Conway's Game of Life; {gameState}; {timeInterval}ms Interval; Generation {generationNumber}";
-            }
-            else
-            {
-                Text = $"Conway's Game of Life; {gameState}; No Interval; Generation {generationNumber}";
-            }
-
-            // Set timer interval
-            generationIntervalTimer.Interval = timeInterval;
+            Text = $"Conway's Game of Life; {gameState}; {timeInterval}ms Interval; Generation {generationNumber}";
         }
     }
 }
