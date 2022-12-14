@@ -21,9 +21,10 @@ namespace Conway_s_Game_of_Life
         bool[,] board;
         Stopwatch frameTimer = new Stopwatch();
         int frameNum = 0;
-        int frameInterval = 34;
+        int frameInterval = 37;
         string gameState = "Paused";
         int timeInterval = 1000;
+        int generationNumber = 0;
 
         public mainWindow()
         {
@@ -39,12 +40,7 @@ namespace Conway_s_Game_of_Life
                 }
             }
             boardPictureBox.Image = getBoardBitmap(board);
-
-            // Set window title
-            Text = $"Conway's Game of Life; {gameState}; {timeInterval}ms Interval";
-
-            // Set timer interval
-            generationIntervalTimer.Interval = timeInterval;
+            updateWindow();
         }
 
         int getNeighbourCount(bool[,] board, int x, int y)
@@ -167,6 +163,7 @@ namespace Conway_s_Game_of_Life
             stopButton.Enabled = false;
             setIntervalButton.Enabled = true;
             gameState = "Paused";
+            generationNumber = 0;
             updateWindow();
             Console.Write("Stopping timers ... ");
             generationIntervalTimer.Stop();
@@ -181,11 +178,13 @@ namespace Conway_s_Game_of_Life
         private void generationIntervalTimer_Tick(object sender, EventArgs e)
         {
             ((IEnumerator<bool[,]>)(generationIntervalTimer.Tag)).MoveNext();
+            generationNumber += 1;
             if (frameTimer.ElapsedMilliseconds >= frameNum * frameInterval)
             {
                 frameNum += 1;
                 Bitmap nextImg = getBoardBitmap(((IEnumerator<bool[,]>)(generationIntervalTimer.Tag)).Current);
                 boardPictureBox.Image = nextImg;
+                updateWindow();
             }
         }
 
@@ -203,7 +202,7 @@ namespace Conway_s_Game_of_Life
         private void updateWindow()
         {
             // Set window title
-            Text = $"Conway's Game of Life; {gameState}; {timeInterval}ms Interval";
+            Text = $"Conway's Game of Life; {gameState}; {timeInterval}ms Interval; Generation {generationNumber}";
 
             // Set timer interval
             generationIntervalTimer.Interval = timeInterval;
