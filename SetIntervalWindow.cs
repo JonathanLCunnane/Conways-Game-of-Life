@@ -19,10 +19,27 @@ namespace Conway_s_Game_of_Life
                 return (int)intervalInput.Value;
             }
         }
-        public SetIntervalWindow(int interval)
+        public bool noInterval
+        {
+            get
+            {
+                return noTimeIntervalCheckBox.Checked;
+            }
+            private set { }
+        }
+        public SetIntervalWindow(int timeInterval, bool noInterval)
         {
             InitializeComponent();
-            intervalInput.Value = interval;
+            intervalInput.Value = timeInterval;
+            intervalInput.Enabled = !noInterval;
+            noTimeIntervalCheckBox.Checked = noInterval;
+        }
+
+        private void noTimeIntervalCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            noInterval = noTimeIntervalCheckBox.Checked;
+            intervalInput.Enabled = !noInterval;
+            
         }
     }
 }

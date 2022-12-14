@@ -36,6 +36,7 @@ namespace Conway_s_Game_of_Life
             this.stopButton = new System.Windows.Forms.ToolStripMenuItem();
             this.setIntervalButton = new System.Windows.Forms.ToolStripMenuItem();
             this.generationIntervalTimer = new System.Windows.Forms.Timer(this.components);
+            this.bgWorkerForGeneration = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.boardPictureBox)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -84,7 +85,15 @@ namespace Conway_s_Game_of_Life
             // 
             // generationIntervalTimer
             // 
+            this.generationIntervalTimer.Interval = 1000;
             this.generationIntervalTimer.Tick += new System.EventHandler(this.generationIntervalTimer_Tick);
+            // 
+            // bgWorkerForGeneration
+            // 
+            this.bgWorkerForGeneration.WorkerReportsProgress = true;
+            this.bgWorkerForGeneration.WorkerSupportsCancellation = true;
+            this.bgWorkerForGeneration.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerForGeneration_DoWork);
+            this.bgWorkerForGeneration.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorkerForGeneration_ProgressChanged);
             // 
             // mainWindow
             // 
@@ -113,6 +122,7 @@ namespace Conway_s_Game_of_Life
         private System.Windows.Forms.Timer generationIntervalTimer;
         private System.Windows.Forms.ToolStripMenuItem stopButton;
         private System.Windows.Forms.ToolStripMenuItem setIntervalButton;
+        private System.ComponentModel.BackgroundWorker bgWorkerForGeneration;
     }
 }
 
