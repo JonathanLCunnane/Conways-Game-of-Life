@@ -17,6 +17,7 @@ namespace Conway_s_Game_of_Life
         int width = 100;
         int height = 100;
         Board board;
+        Board originalBoard;
         int frameNum = 0;
         int frameInterval = 37;
         string gameState = "Paused";
@@ -36,6 +37,9 @@ namespace Conway_s_Game_of_Life
         {
             if (!bgWorkerForGeneration.IsBusy)
             {
+                // Retain copy of original board
+                originalBoard = board.Clone();
+
                 // Common window updates
                 startButton.Enabled = false;
                 stopButton.Enabled = true;
@@ -59,6 +63,9 @@ namespace Conway_s_Game_of_Life
             // Finish up and stop generation.
             updateWindow();
             bgWorkerForGeneration.CancelAsync();
+
+            // Reset board to original state.
+            board = originalBoard;
             boardPictureBox.Image = board.boardBmp;
         }
 

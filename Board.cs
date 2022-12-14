@@ -41,6 +41,29 @@ namespace Conway_s_Game_of_Life
             updateBoardBitmap();
         }
 
+        private Board(bool[,] newBoard, int xDim, int yDim, int xBmpDim, int yBmpDim)
+        {
+            board = newBoard;
+            width = xDim;
+            height = yDim;
+            bmpWidth = xBmpDim;
+            bmpHeight = yBmpDim;
+            boardBmp = new Bitmap(bmpWidth, bmpHeight, PixelFormat.Format32bppArgb);
+            boardGraphics = Graphics.FromImage(boardBmp);
+            updateBoardBitmap();
+        }
+
+        public Board Clone()
+        {
+            return new Board(
+                board.Clone() as bool[,],
+                width,
+                height,
+                bmpWidth,
+                bmpHeight
+                );
+        }
+
         private int getNeighbourCount(int x, int y)
         {
             int count = 0;
