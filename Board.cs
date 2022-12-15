@@ -123,14 +123,9 @@ namespace Conway_s_Game_of_Life
                 {
                     int xCheck = x + xOff;
                     int yCheck = y + yOff;
-                    if (xCheck == -1 || xCheck == width || yCheck == -1 || yCheck == height)
-                    {
-                        continue;
-                    }
-                    if (board[yCheck, xCheck])
-                    {
-                        count++;
-                    }
+                    if (xCheck == x && yCheck == y) continue;
+                    if (xCheck == -1 || xCheck == width || yCheck == -1 || yCheck == height) continue;
+                    if (board[yCheck, xCheck]) count++;
                 }
             }
             return count;

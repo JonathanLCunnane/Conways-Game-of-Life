@@ -14,8 +14,8 @@ namespace Conway_s_Game_of_Life
 {
     public partial class mainWindow : Form
     {
-        int width = 25;
-        int height = 25;
+        int width = 50;
+        int height = 50;
         Board board;
         Board originalBoard;
         int frameInterval = 37;
