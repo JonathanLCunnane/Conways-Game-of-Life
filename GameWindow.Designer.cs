@@ -35,8 +35,8 @@ namespace Conway_s_Game_of_Life
             this.pauseButton = new System.Windows.Forms.ToolStripMenuItem();
             this.stopButton = new System.Windows.Forms.ToolStripMenuItem();
             this.setIntervalButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.bgWorkerForGeneration = new System.ComponentModel.BackgroundWorker();
             this.editButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.bgWorkerForGeneration = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.boardPictureBox)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -48,6 +48,8 @@ namespace Conway_s_Game_of_Life
             this.boardPictureBox.Size = new System.Drawing.Size(710, 662);
             this.boardPictureBox.TabIndex = 0;
             this.boardPictureBox.TabStop = false;
+            this.boardPictureBox.Click += new System.EventHandler(this.boardPictureBox_Click);
+            this.boardPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.boardPictureBox_MouseMove);
             // 
             // menuStrip1
             // 
@@ -93,19 +95,19 @@ namespace Conway_s_Game_of_Life
             this.setIntervalButton.Text = "Set Interval";
             this.setIntervalButton.Click += new System.EventHandler(this.setIntervalButton_Click);
             // 
-            // bgWorkerForGeneration
-            // 
-            this.bgWorkerForGeneration.WorkerReportsProgress = true;
-            this.bgWorkerForGeneration.WorkerSupportsCancellation = true;
-            this.bgWorkerForGeneration.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerForGeneration_DoWork);
-            this.bgWorkerForGeneration.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorkerForGeneration_ProgressChanged);
-            // 
             // editButton
             // 
             this.editButton.Name = "editButton";
             this.editButton.Size = new System.Drawing.Size(73, 20);
             this.editButton.Text = "Edit Board";
             this.editButton.Click += new System.EventHandler(this.editButton_Click);
+            // 
+            // bgWorkerForGeneration
+            // 
+            this.bgWorkerForGeneration.WorkerReportsProgress = true;
+            this.bgWorkerForGeneration.WorkerSupportsCancellation = true;
+            this.bgWorkerForGeneration.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerForGeneration_DoWork);
+            this.bgWorkerForGeneration.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorkerForGeneration_ProgressChanged);
             // 
             // mainWindow
             // 

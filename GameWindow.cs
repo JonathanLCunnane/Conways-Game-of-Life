@@ -14,8 +14,8 @@ namespace Conway_s_Game_of_Life
 {
     public partial class mainWindow : Form
     {
-        int width = 13;
-        int height = 20;
+        int width = 25;
+        int height = 25;
         Board board;
         Board originalBoard;
         int frameInterval = 37;
@@ -24,13 +24,37 @@ namespace Conway_s_Game_of_Life
         int generationNumber = 0;
         Dictionary<ToolStripMenuItem, bool> prevButtonStates;
 
+        int pictureBoxX;
+        int pictureBoxY;
+        Stopwatch editFrameTimer = new Stopwatch();
+        int editFrameNum;
+
         public mainWindow()
         {
             InitializeComponent();
+            // Get bmp location on window
+            pictureBoxX = boardPictureBox.Location.X;
+            pictureBoxY = boardPictureBox.Location.Y;
             // Get new board
             board = new Board(width, height, boardPictureBox.Width, boardPictureBox.Height);
             boardPictureBox.Image = board.boardBmp;
             updateWindow();
+        }
+
+        #region Tool Strip Button Events and Event Handling.
+
+        private void PauseGame(object sender, EventArgs e)
+        {
+            // Common window updates
+            startButton.Enabled = true;
+            pauseButton.Enabled = false;
+            stopButton.Enabled = true;
+            setIntervalButton.Enabled = true;
+            editButton.Enabled = true;
+
+            // Finish updates and pause generation.
+            updateWindow();
+            bgWorkerForGeneration.CancelAsync();
         }
 
         private void startButton_Click(object sender, EventArgs e)
@@ -56,25 +80,11 @@ namespace Conway_s_Game_of_Life
             }
         }
 
-        private void pauseGame(object sender, EventArgs e)
-        {
-            // Common window updates
-            startButton.Enabled = true;
-            pauseButton.Enabled = false;
-            stopButton.Enabled = true;
-            setIntervalButton.Enabled = true;
-            editButton.Enabled = true;
-
-            // Finish updates and pause generation.
-            updateWindow();
-            bgWorkerForGeneration.CancelAsync();
-        }
-
         private void pauseButton_Click(object sender, EventArgs e)
         {
             // Common window updates
             gameState = "Paused";
-            pauseGame(sender, e);
+            PauseGame(sender, e);
 
             // Since we are pausing we do not want to reset the board, just show the latest generation.
             boardPictureBox.Image = board.boardBmp;
@@ -85,7 +95,7 @@ namespace Conway_s_Game_of_Life
             // Common window updates
             generationNumber = 0;
             gameState = "Ready";
-            pauseGame(sender, e);
+            PauseGame(sender, e);
 
             // We also want to disable the stop button, since we are stopping.
             stopButton.Enabled = false;
@@ -93,37 +103,6 @@ namespace Conway_s_Game_of_Life
             // Reset board to original state.
             board = originalBoard;
             boardPictureBox.Image = board.boardBmp;
-        }
-
-        private void bgWorkerForGeneration_DoWork(object sender, DoWorkEventArgs e)
-        {
-            int frameNum = 0;
-            BackgroundWorker bgWorker = sender as BackgroundWorker;
-            Stopwatch frameTimer = Stopwatch.StartNew();
-            while (true)
-            {
-                if (bgWorker.CancellationPending)
-                {
-                    e.Cancel = true;
-                    break;
-                }
-                board.nextGeneration();
-                generationNumber += 1;
-                Console.Write(frameTimer.ElapsedMilliseconds);
-                if (frameTimer.ElapsedMilliseconds >= frameNum * frameInterval)
-                {
-                    frameNum += 1;
-                    Thread.Sleep(timeInterval);
-                    bgWorker.ReportProgress(0, board.boardBmp);
-                }
-            }
-        }
-
-        private void bgWorkerForGeneration_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            Console.Write("FRAME");
-            boardPictureBox.Image = e.UserState as Bitmap;
-            updateWindow();
         }
 
         private void setIntervalButton_Click(object sender, EventArgs e)
@@ -135,12 +114,6 @@ namespace Conway_s_Game_of_Life
                 timeInterval = setIntervalWindow.timeInterval;
                 updateWindow();
             }
-        }
-
-        private void updateWindow()
-        {
-            // Set window title
-            Text = $"Conway's Game of Life; {gameState}; {timeInterval}ms Interval; Generation {generationNumber}";
         }
 
         private void editButton_Click(object sender, EventArgs e)
@@ -165,6 +138,10 @@ namespace Conway_s_Game_of_Life
                 // Set game and edit state
                 editButton.Text = "Submit Board";
                 gameState = "Editing Board";
+
+                // Start editing counters.
+                editFrameNum = 0;
+                editFrameTimer.Start();
             }
             // If we are exiting edit mode.
             else
@@ -178,7 +155,91 @@ namespace Conway_s_Game_of_Life
                 // Set game and edit state
                 editButton.Text = "Edit Board";
                 gameState = "Ready";
+
+                // Stop editing counters.
+                editFrameTimer.Stop();
+
+                // Remove last cell cursor.
+                board.PurgeCursor();
+                boardPictureBox.Image = board.boardBmp;
+            }
+            updateWindow();
+        }
+
+        private void boardPictureBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (gameState != "Editing Board") return;
+
+            // Find cursor position on picturebox.
+            Point screenCursorPos = PointToClient(Cursor.Position);
+            Point relativeCursorPos = new Point(
+                screenCursorPos.X - pictureBoxX,
+                screenCursorPos.Y - pictureBoxY
+                );
+            // Update bitmap with cursor.
+            board.PlaceCursor(relativeCursorPos);
+
+            if (editFrameTimer.ElapsedMilliseconds >= editFrameNum * frameInterval)
+            {
+                editFrameNum += 1;
+                boardPictureBox.Image = board.boardBmp;
             }
         }
+
+        private void boardPictureBox_Click(object sender, EventArgs e)
+        {
+            // Find cursor position on picturebox.
+            Point screenCursorPos = PointToClient(Cursor.Position);
+            Point relativeCursorPos = new Point(
+                screenCursorPos.X - pictureBoxX,
+                screenCursorPos.Y - pictureBoxY
+                );
+
+            // Update bitmap.
+            board.FlipCell(relativeCursorPos);
+            boardPictureBox.Image = board.boardBmp;
+        }
+
+        #endregion
+
+        #region Background Workers for Generation.
+
+        private void bgWorkerForGeneration_DoWork(object sender, DoWorkEventArgs e)
+        {
+            int frameNum = 0;
+            BackgroundWorker bgWorker = sender as BackgroundWorker;
+            Stopwatch frameTimer = Stopwatch.StartNew();
+            while (true)
+            {
+                if (bgWorker.CancellationPending)
+                {
+                    e.Cancel = true;
+                    break;
+                }
+                board.NextGeneration();
+                generationNumber += 1;
+                if (frameTimer.ElapsedMilliseconds >= frameNum * frameInterval)
+                {
+                    frameNum += 1;
+                    Thread.Sleep(timeInterval);
+                    bgWorker.ReportProgress(0, board.boardBmp);
+                }
+            }
+        }
+
+        private void bgWorkerForGeneration_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            boardPictureBox.Image = e.UserState as Bitmap;
+            updateWindow();
+        }
+
+        #endregion
+
+        private void updateWindow()
+        {
+            // Set window title
+            Text = $"Conway's Game of Life; {gameState}; {timeInterval}ms Interval; Generation {generationNumber}";
+        }
+
     }
 }
