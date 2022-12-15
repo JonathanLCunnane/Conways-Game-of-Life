@@ -22,6 +22,7 @@ namespace Conway_s_Game_of_Life
         string gameState = "Ready";
         int timeInterval = 1000;
         int generationNumber = 0;
+        Dictionary<ToolStripMenuItem, bool> prevButtonStates;
 
         public mainWindow()
         {
@@ -47,6 +48,8 @@ namespace Conway_s_Game_of_Life
                 pauseButton.Enabled = true;
                 stopButton.Enabled = true;
                 setIntervalButton.Enabled = false;
+                editButton.Enabled = false;
+
                 gameState = "Playing";
                 updateWindow();
                 bgWorkerForGeneration.RunWorkerAsync();
@@ -60,6 +63,7 @@ namespace Conway_s_Game_of_Life
             pauseButton.Enabled = false;
             stopButton.Enabled = true;
             setIntervalButton.Enabled = true;
+            editButton.Enabled = true;
 
             // Finish updates and pause generation.
             updateWindow();
@@ -137,6 +141,44 @@ namespace Conway_s_Game_of_Life
         {
             // Set window title
             Text = $"Conway's Game of Life; {gameState}; {timeInterval}ms Interval; Generation {generationNumber}";
+        }
+
+        private void editButton_Click(object sender, EventArgs e)
+        {
+            // If are entering edit mode.
+            if (editButton.Text == "Edit Board")
+            {
+                // Store previous button state.
+                prevButtonStates = new Dictionary<ToolStripMenuItem, bool>(){
+                    {startButton, startButton.Enabled },
+                    {pauseButton, pauseButton.Enabled },
+                    {stopButton, stopButton.Enabled },
+                    {setIntervalButton, setIntervalButton.Enabled }
+                };
+
+                // Disable all other buttons.
+                startButton.Enabled = false;
+                pauseButton.Enabled = false;
+                stopButton.Enabled = false;
+                setIntervalButton.Enabled = false;
+
+                // Set game and edit state
+                editButton.Text = "Submit Board";
+                gameState = "Editing Board";
+            }
+            // If we are exiting edit mode.
+            else
+            {
+                // Set button states based on previous states.
+                foreach (KeyValuePair<ToolStripMenuItem, bool> kvp in prevButtonStates)
+                {
+                    kvp.Key.Enabled = kvp.Value;
+                }
+
+                // Set game and edit state
+                editButton.Text = "Edit Board";
+                gameState = "Ready";
+            }
         }
     }
 }

@@ -36,6 +36,7 @@ namespace Conway_s_Game_of_Life
             this.stopButton = new System.Windows.Forms.ToolStripMenuItem();
             this.setIntervalButton = new System.Windows.Forms.ToolStripMenuItem();
             this.bgWorkerForGeneration = new System.ComponentModel.BackgroundWorker();
+            this.editButton = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.boardPictureBox)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -54,7 +55,8 @@ namespace Conway_s_Game_of_Life
             this.startButton,
             this.pauseButton,
             this.stopButton,
-            this.setIntervalButton});
+            this.setIntervalButton,
+            this.editButton});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(734, 24);
@@ -98,6 +100,13 @@ namespace Conway_s_Game_of_Life
             this.bgWorkerForGeneration.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerForGeneration_DoWork);
             this.bgWorkerForGeneration.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorkerForGeneration_ProgressChanged);
             // 
+            // editButton
+            // 
+            this.editButton.Name = "editButton";
+            this.editButton.Size = new System.Drawing.Size(73, 20);
+            this.editButton.Text = "Edit Board";
+            this.editButton.Click += new System.EventHandler(this.editButton_Click);
+            // 
             // mainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -126,6 +135,7 @@ namespace Conway_s_Game_of_Life
         private System.Windows.Forms.ToolStripMenuItem setIntervalButton;
         private System.ComponentModel.BackgroundWorker bgWorkerForGeneration;
         private System.Windows.Forms.ToolStripMenuItem pauseButton;
+        private System.Windows.Forms.ToolStripMenuItem editButton;
     }
 }
 

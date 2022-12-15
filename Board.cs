@@ -33,7 +33,7 @@ namespace Conway_s_Game_of_Life
             {
                 for (int x = 0; x < width; x++)
                 {
-                    board[y, x] = (rand.NextDouble() > 0.95);
+                    board[y, x] = false;//(rand.NextDouble() > 0.95);
                 }
             }
             boardBmp = new Bitmap(bmpWidth, bmpHeight, PixelFormat.Format32bppArgb);
