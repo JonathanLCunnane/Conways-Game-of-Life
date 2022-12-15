@@ -32,6 +32,7 @@ namespace Conway_s_Game_of_Life
             this.boardPictureBox = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.startButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.pauseButton = new System.Windows.Forms.ToolStripMenuItem();
             this.stopButton = new System.Windows.Forms.ToolStripMenuItem();
             this.setIntervalButton = new System.Windows.Forms.ToolStripMenuItem();
             this.bgWorkerForGeneration = new System.ComponentModel.BackgroundWorker();
@@ -51,6 +52,7 @@ namespace Conway_s_Game_of_Life
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.startButton,
+            this.pauseButton,
             this.stopButton,
             this.setIntervalButton});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -65,6 +67,14 @@ namespace Conway_s_Game_of_Life
             this.startButton.Size = new System.Drawing.Size(43, 20);
             this.startButton.Text = "Start";
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
+            // 
+            // pauseButton
+            // 
+            this.pauseButton.Enabled = false;
+            this.pauseButton.Name = "pauseButton";
+            this.pauseButton.Size = new System.Drawing.Size(50, 20);
+            this.pauseButton.Text = "Pause";
+            this.pauseButton.Click += new System.EventHandler(this.pauseButton_Click);
             // 
             // stopButton
             // 
@@ -115,6 +125,7 @@ namespace Conway_s_Game_of_Life
         private System.Windows.Forms.ToolStripMenuItem stopButton;
         private System.Windows.Forms.ToolStripMenuItem setIntervalButton;
         private System.ComponentModel.BackgroundWorker bgWorkerForGeneration;
+        private System.Windows.Forms.ToolStripMenuItem pauseButton;
     }
 }
 

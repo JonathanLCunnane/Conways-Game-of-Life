@@ -14,13 +14,12 @@ namespace Conway_s_Game_of_Life
 {
     public partial class mainWindow : Form
     {
-        int width = 100;
-        int height = 100;
+        int width = 13;
+        int height = 20;
         Board board;
         Board originalBoard;
-        int frameNum = 0;
         int frameInterval = 37;
-        string gameState = "Paused";
+        string gameState = "Ready";
         int timeInterval = 1000;
         int generationNumber = 0;
 
@@ -37,11 +36,15 @@ namespace Conway_s_Game_of_Life
         {
             if (!bgWorkerForGeneration.IsBusy)
             {
-                // Retain copy of original board
-                originalBoard = board.Clone();
+                // Retain copy of original board if not paused
+                if (gameState != "Paused")
+                {
+                    originalBoard = board.Clone();
+                }
 
                 // Common window updates
                 startButton.Enabled = false;
+                pauseButton.Enabled = true;
                 stopButton.Enabled = true;
                 setIntervalButton.Enabled = false;
                 gameState = "Playing";
@@ -50,19 +53,38 @@ namespace Conway_s_Game_of_Life
             }
         }
 
-        private void stopButton_Click(object sender, EventArgs e)
+        private void pauseGame(object sender, EventArgs e)
         {
             // Common window updates
             startButton.Enabled = true;
-            stopButton.Enabled = false;
+            pauseButton.Enabled = false;
+            stopButton.Enabled = true;
             setIntervalButton.Enabled = true;
-            gameState = "Paused";
-            generationNumber = 0;
-            frameNum = 0;
 
-            // Finish up and stop generation.
+            // Finish updates and pause generation.
             updateWindow();
             bgWorkerForGeneration.CancelAsync();
+        }
+
+        private void pauseButton_Click(object sender, EventArgs e)
+        {
+            // Common window updates
+            gameState = "Paused";
+            pauseGame(sender, e);
+
+            // Since we are pausing we do not want to reset the board, just show the latest generation.
+            boardPictureBox.Image = board.boardBmp;
+        }
+
+        private void stopButton_Click(object sender, EventArgs e)
+        {
+            // Common window updates
+            generationNumber = 0;
+            gameState = "Ready";
+            pauseGame(sender, e);
+
+            // We also want to disable the stop button, since we are stopping.
+            stopButton.Enabled = false;
 
             // Reset board to original state.
             board = originalBoard;
@@ -71,6 +93,7 @@ namespace Conway_s_Game_of_Life
 
         private void bgWorkerForGeneration_DoWork(object sender, DoWorkEventArgs e)
         {
+            int frameNum = 0;
             BackgroundWorker bgWorker = sender as BackgroundWorker;
             Stopwatch frameTimer = Stopwatch.StartNew();
             while (true)
