@@ -188,6 +188,8 @@ namespace Conway_s_Game_of_Life
 
         private void boardPictureBox_Click(object sender, EventArgs e)
         {
+            if (gameState != "Editing Board") return;
+
             // Find cursor position on picturebox.
             Point screenCursorPos = PointToClient(Cursor.Position);
             Point relativeCursorPos = new Point(
