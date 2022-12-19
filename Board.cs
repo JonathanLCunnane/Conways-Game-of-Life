@@ -12,8 +12,8 @@ namespace Conway_s_Game_of_Life
     public class Board
     {
         bool[,] board;
-        int width;
-        int height;
+        public int width;
+        public int height;
         Brush blackBrush = Brushes.Black;
         Brush whiteBrush = Brushes.White;
         Brush greyBrush = new SolidBrush(Color.FromArgb(127, Color.Gray));
@@ -112,6 +112,16 @@ namespace Conway_s_Game_of_Life
             bool alive = !board[currCursorPos.Y, currCursorPos.X];
             board[currCursorPos.Y, currCursorPos.X] = alive;
             AlterCellOnBmp(currCursorPos.X, currCursorPos.Y, alive);
+        }
+
+        public void SaveBoard()
+        {
+            //Add save feature later. Limit the size somehow
+        }
+
+        public void LoadBoard()
+        {
+            //Add load feature later.
         }
 
         private int GetNeighbourCount(int x, int y)

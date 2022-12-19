@@ -51,6 +51,8 @@ namespace Conway_s_Game_of_Life
             stopButton.Enabled = true;
             setIntervalButton.Enabled = true;
             editButton.Enabled = true;
+            fileButton.Enabled = true;
+            setDimensionsButton.Enabled = true;
 
             // Finish updates and pause generation.
             updateWindow();
@@ -73,6 +75,8 @@ namespace Conway_s_Game_of_Life
                 stopButton.Enabled = true;
                 setIntervalButton.Enabled = false;
                 editButton.Enabled = false;
+                fileButton.Enabled = false;
+                setDimensionsButton.Enabled = false;
 
                 gameState = "Playing";
                 updateWindow();
@@ -126,14 +130,18 @@ namespace Conway_s_Game_of_Life
                     {startButton, startButton.Enabled },
                     {pauseButton, pauseButton.Enabled },
                     {stopButton, stopButton.Enabled },
-                    {setIntervalButton, setIntervalButton.Enabled }
-                };
+                    {setIntervalButton, setIntervalButton.Enabled },
+                    {fileButton, fileButton.Enabled },
+                    {setDimensionsButton, setDimensionsButton.Enabled }
+            };
 
                 // Disable all other buttons.
                 startButton.Enabled = false;
                 pauseButton.Enabled = false;
                 stopButton.Enabled = false;
                 setIntervalButton.Enabled = false;
+                fileButton.Enabled = false;
+                setDimensionsButton.Enabled = false;
 
                 // Set game and edit state
                 editButton.Text = "Submit Board";
@@ -200,6 +208,16 @@ namespace Conway_s_Game_of_Life
             // Update bitmap.
             board.FlipCell(relativeCursorPos);
             boardPictureBox.Image = board.boardBmp;
+        }
+
+        private void exportBoardButton_Click(object sender, EventArgs e)
+        {
+            board.SaveBoard();
+        }
+
+        private void importBoardButton_Click(object sender, EventArgs e)
+        {
+            board.LoadBoard();
         }
 
         #endregion

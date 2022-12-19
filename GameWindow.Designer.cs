@@ -37,6 +37,10 @@ namespace Conway_s_Game_of_Life
             this.setIntervalButton = new System.Windows.Forms.ToolStripMenuItem();
             this.editButton = new System.Windows.Forms.ToolStripMenuItem();
             this.bgWorkerForGeneration = new System.ComponentModel.BackgroundWorker();
+            this.fileButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportBoardButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.importBoardButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.setDimensionsButton = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.boardPictureBox)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -54,10 +58,12 @@ namespace Conway_s_Game_of_Life
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileButton,
             this.startButton,
             this.pauseButton,
             this.stopButton,
             this.setIntervalButton,
+            this.setDimensionsButton,
             this.editButton});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -109,6 +115,35 @@ namespace Conway_s_Game_of_Life
             this.bgWorkerForGeneration.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerForGeneration_DoWork);
             this.bgWorkerForGeneration.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorkerForGeneration_ProgressChanged);
             // 
+            // fileButton
+            // 
+            this.fileButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportBoardButton,
+            this.importBoardButton});
+            this.fileButton.Name = "fileButton";
+            this.fileButton.Size = new System.Drawing.Size(37, 20);
+            this.fileButton.Text = "File";
+            // 
+            // exportBoardButton
+            // 
+            this.exportBoardButton.Name = "exportBoardButton";
+            this.exportBoardButton.Size = new System.Drawing.Size(180, 22);
+            this.exportBoardButton.Text = "Export Board";
+            this.exportBoardButton.Click += new System.EventHandler(this.exportBoardButton_Click);
+            // 
+            // importBoardButton
+            // 
+            this.importBoardButton.Name = "importBoardButton";
+            this.importBoardButton.Size = new System.Drawing.Size(180, 22);
+            this.importBoardButton.Text = "Import Board";
+            this.importBoardButton.Click += new System.EventHandler(this.importBoardButton_Click);
+            // 
+            // setDimensionsButton
+            // 
+            this.setDimensionsButton.Name = "setDimensionsButton";
+            this.setDimensionsButton.Size = new System.Drawing.Size(100, 20);
+            this.setDimensionsButton.Text = "Set Dimensions";
+            // 
             // mainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -138,6 +173,10 @@ namespace Conway_s_Game_of_Life
         private System.ComponentModel.BackgroundWorker bgWorkerForGeneration;
         private System.Windows.Forms.ToolStripMenuItem pauseButton;
         private System.Windows.Forms.ToolStripMenuItem editButton;
+        private System.Windows.Forms.ToolStripMenuItem fileButton;
+        private System.Windows.Forms.ToolStripMenuItem exportBoardButton;
+        private System.Windows.Forms.ToolStripMenuItem importBoardButton;
+        private System.Windows.Forms.ToolStripMenuItem setDimensionsButton;
     }
 }
 
