@@ -14,8 +14,8 @@ namespace Conway_s_Game_of_Life
 {
     public partial class mainWindow : Form
     {
-        int width = 50;
-        int height = 50;
+        int startWidth = 50;
+        int startHeight = 50;
         Board board;
         Board originalBoard;
         int frameInterval = 37;
@@ -36,7 +36,7 @@ namespace Conway_s_Game_of_Life
             pictureBoxX = boardPictureBox.Location.X;
             pictureBoxY = boardPictureBox.Location.Y;
             // Get new board
-            board = new Board(width, height, boardPictureBox.Width, boardPictureBox.Height);
+            board = new Board(startWidth, startHeight, boardPictureBox.Width, boardPictureBox.Height);
             boardPictureBox.Image = board.boardBmp;
             updateWindow();
         }
@@ -220,6 +220,21 @@ namespace Conway_s_Game_of_Life
             board.LoadBoard();
         }
 
+        private void setDimensionsButton_Click(object sender, EventArgs e)
+        {
+            SetDimensionsWindow setDimensionsWindow = new SetDimensionsWindow(board.width, board.height);
+            DialogResult dialogueResult = setDimensionsWindow.ShowDialog();
+            if (dialogueResult == DialogResult.OK)
+            {
+                // Change dimensions internally
+                board.ChangeDimensions(setDimensionsWindow.x, setDimensionsWindow.y);
+                updateWindow();
+
+                // Update bitmap
+                boardPictureBox.Image = board.boardBmp;
+            }
+        }
+
         #endregion
 
         #region Background Workers for Generation.
@@ -258,7 +273,7 @@ namespace Conway_s_Game_of_Life
         private void updateWindow()
         {
             // Set window title
-            Text = $"Conway's Game of Life; {gameState}; {timeInterval}ms Interval; Generation {generationNumber}";
+            Text = $"Conway's Game of Life; {gameState}; {timeInterval}ms Interval; Dimensions ({board.width}, {board.height}); Generation {generationNumber}";
         }
 
     }

@@ -29,21 +29,21 @@ namespace Conway_s_Game_of_Life
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.setGenerationIntervalLabel = new System.Windows.Forms.Label();
             this.intervalInput = new System.Windows.Forms.NumericUpDown();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.submitIntervalButton = new System.Windows.Forms.Button();
+            this.cancelIntervalButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.intervalInput)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
+            // setGenerationIntervalLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(35, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(180, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Set Generation Interval (1 - 3000ms):";
+            this.setGenerationIntervalLabel.AutoSize = true;
+            this.setGenerationIntervalLabel.Location = new System.Drawing.Point(35, 9);
+            this.setGenerationIntervalLabel.Name = "setGenerationIntervalLabel";
+            this.setGenerationIntervalLabel.Size = new System.Drawing.Size(180, 13);
+            this.setGenerationIntervalLabel.TabIndex = 0;
+            this.setGenerationIntervalLabel.Text = "Set Generation Interval (1 - 3000ms):";
             // 
             // intervalInput
             // 
@@ -57,37 +57,37 @@ namespace Conway_s_Game_of_Life
             this.intervalInput.Size = new System.Drawing.Size(120, 20);
             this.intervalInput.TabIndex = 1;
             // 
-            // button1
+            // submitIntervalButton
             // 
-            this.button1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button1.Location = new System.Drawing.Point(12, 64);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(98, 35);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Set Time Interval";
-            this.button1.UseVisualStyleBackColor = true;
+            this.submitIntervalButton.Cursor = System.Windows.Forms.Cursors.Default;
+            this.submitIntervalButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.submitIntervalButton.Location = new System.Drawing.Point(12, 64);
+            this.submitIntervalButton.Name = "submitIntervalButton";
+            this.submitIntervalButton.Size = new System.Drawing.Size(98, 35);
+            this.submitIntervalButton.TabIndex = 2;
+            this.submitIntervalButton.Text = "Set Time Interval";
+            this.submitIntervalButton.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // cancelIntervalButton
             // 
-            this.button2.Cursor = System.Windows.Forms.Cursors.Default;
-            this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button2.Location = new System.Drawing.Point(124, 64);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(98, 35);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Cancel";
-            this.button2.UseVisualStyleBackColor = true;
+            this.cancelIntervalButton.Cursor = System.Windows.Forms.Cursors.Default;
+            this.cancelIntervalButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cancelIntervalButton.Location = new System.Drawing.Point(124, 64);
+            this.cancelIntervalButton.Name = "cancelIntervalButton";
+            this.cancelIntervalButton.Size = new System.Drawing.Size(98, 35);
+            this.cancelIntervalButton.TabIndex = 3;
+            this.cancelIntervalButton.Text = "Cancel";
+            this.cancelIntervalButton.UseVisualStyleBackColor = true;
             // 
             // SetIntervalWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(234, 111);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.cancelIntervalButton);
+            this.Controls.Add(this.submitIntervalButton);
             this.Controls.Add(this.intervalInput);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.setGenerationIntervalLabel);
             this.Name = "SetIntervalWindow";
             this.Text = "Set Interval";
             ((System.ComponentModel.ISupportInitialize)(this.intervalInput)).EndInit();
@@ -98,9 +98,9 @@ namespace Conway_s_Game_of_Life
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label setGenerationIntervalLabel;
         private System.Windows.Forms.NumericUpDown intervalInput;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button submitIntervalButton;
+        private System.Windows.Forms.Button cancelIntervalButton;
     }
 }

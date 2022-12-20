@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Drawing.Printing;
 
 namespace Conway_s_Game_of_Life
 {
@@ -79,8 +78,8 @@ namespace Conway_s_Game_of_Life
 
             if (newCursorPos == cursorPos || newCursorPos.X >= width || newCursorPos.Y >= height) return;
 
-            // Redraw previous cursor cell.
-            AlterCellOnBmp(cursorPos.X, cursorPos.Y, board[cursorPos.Y, cursorPos.X]);
+            // Redraw previous cursor cell if possible.
+            if (cursorPos.X < width && cursorPos.Y < height) AlterCellOnBmp(cursorPos.X, cursorPos.Y, board[cursorPos.Y, cursorPos.X]);
 
             // Draw new cursor cell.
             cursorPos = newCursorPos;
@@ -122,6 +121,29 @@ namespace Conway_s_Game_of_Life
         public void LoadBoard()
         {
             //Add load feature later.
+        }
+
+        public void ChangeDimensions(int newX, int newY)
+        {
+            // Create new board.
+            bool[,] newBoard = new bool[newY, newX];
+            for (int y = 0; y < newY; y++)
+            {
+                if (y >= width) break;
+                for (int x = 0; x < newX; x++)
+                {
+                    if (x >= width) break;
+                    newBoard[y, x] = board[y, x];
+                }
+            }
+            board = newBoard;
+
+            // Change width and height.
+            width = newX;
+            height = newY;
+
+            // Update bitmap
+            UpdateBoardBitmap();
         }
 
         private int GetNeighbourCount(int x, int y)

@@ -31,16 +31,16 @@ namespace Conway_s_Game_of_Life
         {
             this.boardPictureBox = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportBoardButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.importBoardButton = new System.Windows.Forms.ToolStripMenuItem();
             this.startButton = new System.Windows.Forms.ToolStripMenuItem();
             this.pauseButton = new System.Windows.Forms.ToolStripMenuItem();
             this.stopButton = new System.Windows.Forms.ToolStripMenuItem();
             this.setIntervalButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.setDimensionsButton = new System.Windows.Forms.ToolStripMenuItem();
             this.editButton = new System.Windows.Forms.ToolStripMenuItem();
             this.bgWorkerForGeneration = new System.ComponentModel.BackgroundWorker();
-            this.fileButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportBoardButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.importBoardButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.setDimensionsButton = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.boardPictureBox)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -49,7 +49,7 @@ namespace Conway_s_Game_of_Life
             // 
             this.boardPictureBox.Location = new System.Drawing.Point(12, 37);
             this.boardPictureBox.Name = "boardPictureBox";
-            this.boardPictureBox.Size = new System.Drawing.Size(710, 662);
+            this.boardPictureBox.Size = new System.Drawing.Size(800, 800);
             this.boardPictureBox.TabIndex = 0;
             this.boardPictureBox.TabStop = false;
             this.boardPictureBox.Click += new System.EventHandler(this.boardPictureBox_Click);
@@ -67,9 +67,32 @@ namespace Conway_s_Game_of_Life
             this.editButton});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(734, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(825, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileButton
+            // 
+            this.fileButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportBoardButton,
+            this.importBoardButton});
+            this.fileButton.Name = "fileButton";
+            this.fileButton.Size = new System.Drawing.Size(37, 20);
+            this.fileButton.Text = "File";
+            // 
+            // exportBoardButton
+            // 
+            this.exportBoardButton.Name = "exportBoardButton";
+            this.exportBoardButton.Size = new System.Drawing.Size(144, 22);
+            this.exportBoardButton.Text = "Export Board";
+            this.exportBoardButton.Click += new System.EventHandler(this.exportBoardButton_Click);
+            // 
+            // importBoardButton
+            // 
+            this.importBoardButton.Name = "importBoardButton";
+            this.importBoardButton.Size = new System.Drawing.Size(144, 22);
+            this.importBoardButton.Text = "Import Board";
+            this.importBoardButton.Click += new System.EventHandler(this.importBoardButton_Click);
             // 
             // startButton
             // 
@@ -101,6 +124,13 @@ namespace Conway_s_Game_of_Life
             this.setIntervalButton.Text = "Set Interval";
             this.setIntervalButton.Click += new System.EventHandler(this.setIntervalButton_Click);
             // 
+            // setDimensionsButton
+            // 
+            this.setDimensionsButton.Name = "setDimensionsButton";
+            this.setDimensionsButton.Size = new System.Drawing.Size(100, 20);
+            this.setDimensionsButton.Text = "Set Dimensions";
+            this.setDimensionsButton.Click += new System.EventHandler(this.setDimensionsButton_Click);
+            // 
             // editButton
             // 
             this.editButton.Name = "editButton";
@@ -115,46 +145,17 @@ namespace Conway_s_Game_of_Life
             this.bgWorkerForGeneration.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerForGeneration_DoWork);
             this.bgWorkerForGeneration.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorkerForGeneration_ProgressChanged);
             // 
-            // fileButton
-            // 
-            this.fileButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exportBoardButton,
-            this.importBoardButton});
-            this.fileButton.Name = "fileButton";
-            this.fileButton.Size = new System.Drawing.Size(37, 20);
-            this.fileButton.Text = "File";
-            // 
-            // exportBoardButton
-            // 
-            this.exportBoardButton.Name = "exportBoardButton";
-            this.exportBoardButton.Size = new System.Drawing.Size(180, 22);
-            this.exportBoardButton.Text = "Export Board";
-            this.exportBoardButton.Click += new System.EventHandler(this.exportBoardButton_Click);
-            // 
-            // importBoardButton
-            // 
-            this.importBoardButton.Name = "importBoardButton";
-            this.importBoardButton.Size = new System.Drawing.Size(180, 22);
-            this.importBoardButton.Text = "Import Board";
-            this.importBoardButton.Click += new System.EventHandler(this.importBoardButton_Click);
-            // 
-            // setDimensionsButton
-            // 
-            this.setDimensionsButton.Name = "setDimensionsButton";
-            this.setDimensionsButton.Size = new System.Drawing.Size(100, 20);
-            this.setDimensionsButton.Text = "Set Dimensions";
-            // 
             // mainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(734, 711);
+            this.ClientSize = new System.Drawing.Size(825, 853);
             this.Controls.Add(this.boardPictureBox);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "mainWindow";
-            this.Text = "Conway\'s Game of Life; {gameState}; {timeInterval}ms Interval; Generation {genera" +
-    "tionNumber}";
+            this.Text = "Conway\'s Game of Life; {gameState}; {timeInterval}ms Interval; Dimensions ({x}, {" +
+    "y}); Generation {generationNumber}";
             ((System.ComponentModel.ISupportInitialize)(this.boardPictureBox)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
