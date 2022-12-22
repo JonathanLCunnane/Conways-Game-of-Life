@@ -43,7 +43,7 @@
             // 
             this.cancelDimensionsButton.Cursor = System.Windows.Forms.Cursors.Default;
             this.cancelDimensionsButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelDimensionsButton.Location = new System.Drawing.Point(124, 114);
+            this.cancelDimensionsButton.Location = new System.Drawing.Point(149, 114);
             this.cancelDimensionsButton.Name = "cancelDimensionsButton";
             this.cancelDimensionsButton.Size = new System.Drawing.Size(98, 35);
             this.cancelDimensionsButton.TabIndex = 5;
@@ -54,7 +54,7 @@
             // 
             this.submitDimensionsButton.Cursor = System.Windows.Forms.Cursors.Default;
             this.submitDimensionsButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.submitDimensionsButton.Location = new System.Drawing.Point(12, 114);
+            this.submitDimensionsButton.Location = new System.Drawing.Point(37, 114);
             this.submitDimensionsButton.Name = "submitDimensionsButton";
             this.submitDimensionsButton.Size = new System.Drawing.Size(98, 35);
             this.submitDimensionsButton.TabIndex = 4;
@@ -64,7 +64,7 @@
             // setDimensionsLabel
             // 
             this.setDimensionsLabel.AutoSize = true;
-            this.setDimensionsLabel.Location = new System.Drawing.Point(44, 9);
+            this.setDimensionsLabel.Location = new System.Drawing.Point(69, 9);
             this.setDimensionsLabel.Name = "setDimensionsLabel";
             this.setDimensionsLabel.Size = new System.Drawing.Size(156, 13);
             this.setDimensionsLabel.TabIndex = 6;
@@ -73,7 +73,7 @@
             // xLabel
             // 
             this.xLabel.AutoSize = true;
-            this.xLabel.Location = new System.Drawing.Point(12, 39);
+            this.xLabel.Location = new System.Drawing.Point(37, 39);
             this.xLabel.Name = "xLabel";
             this.xLabel.Size = new System.Drawing.Size(15, 13);
             this.xLabel.TabIndex = 7;
@@ -82,7 +82,7 @@
             // yLabel
             // 
             this.yLabel.AutoSize = true;
-            this.yLabel.Location = new System.Drawing.Point(9, 74);
+            this.yLabel.Location = new System.Drawing.Point(34, 74);
             this.yLabel.Name = "yLabel";
             this.yLabel.Size = new System.Drawing.Size(15, 13);
             this.yLabel.TabIndex = 8;
@@ -90,7 +90,7 @@
             // 
             // xInput
             // 
-            this.xInput.Location = new System.Drawing.Point(47, 39);
+            this.xInput.Location = new System.Drawing.Point(72, 39);
             this.xInput.Maximum = new decimal(new int[] {
             512,
             0,
@@ -112,7 +112,7 @@
             // 
             // yInput
             // 
-            this.yInput.Location = new System.Drawing.Point(47, 74);
+            this.yInput.Location = new System.Drawing.Point(72, 74);
             this.yInput.Maximum = new decimal(new int[] {
             512,
             0,
@@ -136,7 +136,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(234, 161);
+            this.ClientSize = new System.Drawing.Size(284, 161);
             this.Controls.Add(this.yInput);
             this.Controls.Add(this.xInput);
             this.Controls.Add(this.yLabel);
