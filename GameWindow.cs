@@ -218,6 +218,7 @@ namespace Conway_s_Game_of_Life
         private void importBoardButton_Click(object sender, EventArgs e)
         {
             board.LoadBoard();
+            boardPictureBox.Image = board.boardBmp;
         }
 
         private void setDimensionsButton_Click(object sender, EventArgs e)

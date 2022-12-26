@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
+using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace Conway_s_Game_of_Life
 {
@@ -113,14 +116,86 @@ namespace Conway_s_Game_of_Life
             AlterCellOnBmp(currCursorPos.X, currCursorPos.Y, alive);
         }
 
-        public void SaveBoard()
+        public async void SaveBoard()
         {
-            //Add save feature later. Limit the size somehow
+            // Create a Save File Dialogue to help the user save the file.
+            SaveFileDialog saveFileDialogue = new SaveFileDialog();
+            saveFileDialogue.Filter = "Life File|*.cgl;*.jlccgl;*.txt";
+            saveFileDialogue.RestoreDirectory = true;
+
+            DialogResult dialogResult = saveFileDialogue.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                string fileEXT = Path.GetExtension(saveFileDialogue.FileName);
+                string fileName = Path.ChangeExtension(saveFileDialogue.FileName, null);
+                switch (fileEXT)
+                {
+                    case ".cgl":
+                    case ".jlccgl":
+                    case ".txt":
+                        fileName += fileEXT;
+                        break;
+                    default:
+                        fileName += ".cgl";
+                        break;
+                }
+                // Get lines to save
+                string currLine;
+                string[] lines = new string[height];
+                for (int y = 0; y < height; y++)
+                {
+                    currLine = "";
+                    for (int x=0; x < width; x++)
+                    {
+                        if (board[y, x]) currLine += "1";
+                        else currLine += "0";
+                    }
+                    lines[y] = currLine;
+                }
+
+                // Save the lines in a file.
+                File.WriteAllLines(fileName, lines);
+            }
         }
 
         public void LoadBoard()
         {
-            //Add load feature later.
+            // Create an Open File Dialogue to help the user save the file.
+            OpenFileDialog openFileDialogue = new OpenFileDialog();
+            openFileDialogue.Filter = "Life File|*.cgl;*.jlccgl;*.txt";
+            openFileDialogue.RestoreDirectory = true;
+
+            DialogResult dialogResult = openFileDialogue.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                // Get the file lines.
+                string[] lines = File.ReadAllLines(openFileDialogue.FileName);
+
+                // Check if the board does not fit.
+                if (lines.Length > height || lines[0].Length > width)
+                {
+                    // Show error message box if the imported board will not fit.
+                    MessageBox.Show(
+                           $"The dimensions of the imported board must be smaller than the current dimensions:\n\nCurrent Dimensions: ({width},{height})\nImporting Dimensions: ({lines.Length},{lines[0].Length})",
+                           "Dimensional Error",
+                           MessageBoxButtons.OK,
+                           MessageBoxIcon.Error
+                    );
+                    return;
+                }
+                bool[,] newBoard = new bool[height, width];
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++)
+                    {
+                        if (lines[y][x] == '1') newBoard[y, x] = true;
+                        else newBoard[y, x] = false;
+                    }
+                }
+
+                board = newBoard;
+                UpdateBoardBitmap();
+            }
         }
 
         public void ChangeDimensions(int newX, int newY)
