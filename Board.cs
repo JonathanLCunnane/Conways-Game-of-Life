@@ -184,9 +184,9 @@ namespace Conway_s_Game_of_Life
                     return;
                 }
                 bool[,] newBoard = new bool[height, width];
-                for (int y = 0; y < height; y++)
+                for (int y = 0; y < lines.Length; y++)
                 {
-                    for (int x = 0; x < width; x++)
+                    for (int x = 0; x < lines[0].Length; x++)
                     {
                         if (lines[y][x] == '1') newBoard[y, x] = true;
                         else newBoard[y, x] = false;
