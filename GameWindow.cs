@@ -245,6 +245,8 @@ namespace Conway_s_Game_of_Life
             int frameNum = 0;
             BackgroundWorker bgWorker = sender as BackgroundWorker;
             Stopwatch frameTimer = Stopwatch.StartNew();
+            long currGenTime;
+            int sleepTime;
             while (true)
             {
                 if (bgWorker.CancellationPending)
@@ -252,12 +254,16 @@ namespace Conway_s_Game_of_Life
                     e.Cancel = true;
                     break;
                 }
+                currGenTime = frameTimer.ElapsedMilliseconds;
                 board.NextGeneration();
                 generationNumber += 1;
+                currGenTime = frameTimer.ElapsedMilliseconds - currGenTime;
+                sleepTime = timeInterval - (int)currGenTime;
+
+                if (sleepTime >= 0) Thread.Sleep(sleepTime);
                 if (frameTimer.ElapsedMilliseconds >= frameNum * frameInterval)
                 {
                     frameNum += 1;
-                    Thread.Sleep(timeInterval);
                     bgWorker.ReportProgress(0, board.boardBmp);
                 }
             }
